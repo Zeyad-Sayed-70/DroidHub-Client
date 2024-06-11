@@ -2,6 +2,9 @@ import Navbar from "@/components/elements/Navbar";
 import Posts from "@/components/elements/Posts";
 import Sidebar from "@/components/elements/Sidebar";
 import { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export const metadata: Metadata = {
   title: "DroidHub | Home",
@@ -16,16 +19,16 @@ export default function Home() {
           <Navbar />
         </article>
         <div className="flex items-start gap-4">
-          <article className="hidden lg:block w-[250px] xl:w-[300px] h-screen p-4 rounded-md shadow-md bg-slate-50">
+          <article className="hidden lg:block w-[250px] xl:w-[300px] h-screen p-4 rounded-md shadow-md bg-secondary">
             <Sidebar />
           </article>
           <article
             style={{ height: "calc(100vh - 74px)" }}
-            className="lg:!h-screen overflow-auto flex-1 p-4 rounded-md shadow-md bg-slate-50"
+            className="lg:!h-screen overflow-auto flex-1 p-4 rounded-md shadow-md bg-secondary"
           >
             <Posts />
           </article>
-          <article className="hidden md:block w-[250px] xl:w-[300px] p-3 bg-slate-50">
+          <article className="hidden md:block w-[250px] xl:w-[300px] p-3 bg-secondary">
             Right side
           </article>
         </div>

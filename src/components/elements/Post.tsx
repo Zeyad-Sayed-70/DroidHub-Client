@@ -9,22 +9,26 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { PostType } from "@/types/post.type";
 import { UserType } from "@/types/user.type";
+import { secureHeapUsed } from "crypto";
+import { Button } from "../ui/button";
+import { AiFillLike } from "react-icons/ai";
+import { BiSolidCommentDetail } from "react-icons/bi";
 
 const Post = memo(({ post, user }: { post: PostType; user: UserType }) => {
   const [showMore, setShowMore] = React.useState(false);
   return (
-    <main className="max-w-[600px] w-full bg-gray-100 p-4 rounded-md shadow-sm">
+    <main className="max-w-[600px] w-full bg-white p-4 rounded-md shadow-sm border-border border-2">
       <Header post={post} user={user} />
-      <p className="p-4 text-sm leading-6 text-gray-800 whitespace-pre-line">
+      <p className="py-4 text-sm leading-6 text-gray-800 whitespace-pre-line">
         {post.content && post.content.length > 100 ? (
           <>
-            {showMore ? post.content : `${post.content.slice(0, 100)}...`}
-            <span
-              className="text-sm text-blue-700 cursor-pointer hover:underline ml-2"
+            {showMore ? post.content : `${post.content.slice(0, 200)}...`}
+            <p
+              className="text-xs text-center mx-0 mt-2 py-1 rounded-md text-secondary-foreground bg-accent hover:bg-input cursor-pointer hover:underline"
               onClick={() => setShowMore(!showMore)}
             >
               {showMore ? "Show Less" : "Show More"}
-            </span>
+            </p>
           </>
         ) : (
           post.content
@@ -32,7 +36,7 @@ const Post = memo(({ post, user }: { post: PostType; user: UserType }) => {
       </p>
       {/* Image Serction */}
       {post.images && post.images.length > 0 && (
-        <section>
+        <section className="mb-2">
           <Image
             alt="image"
             src={post.images?.[0] || ""}
@@ -42,6 +46,8 @@ const Post = memo(({ post, user }: { post: PostType; user: UserType }) => {
           />
         </section>
       )}
+      {/* Reactions Section */}
+      <Reactions />
     </main>
   );
 });
@@ -83,4 +89,16 @@ const Header = ({ post, user }: { post: PostType; user: UserType }) => {
   );
 };
 
+const Reactions = () => {
+  return (
+    <section className="flex items-center>">
+      <Button className="rounded-none flex-1 bg-accent text-primary hover:bg-input">
+        <AiFillLike /> <span className="ml-1">Like</span>
+      </Button>
+      <Button className="rounded-none flex-1 bg-accent text-primary hover:bg-input">
+        <BiSolidCommentDetail /> <span className="ml-1">Comment</span>
+      </Button>
+    </section>
+  );
+};
 export default Post;
