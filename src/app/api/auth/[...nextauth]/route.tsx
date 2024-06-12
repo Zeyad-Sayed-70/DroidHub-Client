@@ -32,6 +32,7 @@ export const authOptions: NextAuthOptions = {
             token.role = response.data.role;
             token.communities = response.data.communities;
             token.bio = response.data.bio;
+            token.probability_being = response.data.probability_being;
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -44,7 +45,8 @@ export const authOptions: NextAuthOptions = {
       session.user.role = token.role;
       session.user.communities = token.communities;
       session.user.bio = token.bio;
-      session.accessToken = token.accessToken;
+      session.user.probability_being = token.probability_being;
+      // session.accessToken = token.accessToken;
 
       return session;
     },

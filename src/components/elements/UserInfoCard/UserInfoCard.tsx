@@ -31,7 +31,7 @@ const UserInfoCard = async () => {
               <TooltipUi
                 title={session?.user?.name || ""}
                 trigger={
-                  <h2 className="text-md whitespace-nowrap text-ellipsis overflow-hidden text-left w-[95px] xl:w-[150px] cursor-default">
+                  <h2 className="text-md whitespace-nowrap text-ellipsis overflow-hidden text-left max-w-[95px] xl:max-w-[150px] cursor-default">
                     {session?.user?.name}
                   </h2>
                 }

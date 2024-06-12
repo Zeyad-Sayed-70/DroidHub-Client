@@ -9,6 +9,7 @@ declare module "next-auth" {
       role?: string;
       communities?: string[];
       bio?: string[];
+      probability_being?: string
     };
     accessToken?: string; // If you want to include accessToken
   }
@@ -21,6 +22,7 @@ declare module "next-auth" {
     role?: string;
     communities?: string[];
     bio?: string[];
+    probability_being?: string
   }
 }
 
@@ -29,6 +31,7 @@ declare module "next-auth/jwt" {
     role?: string;
     communities?: string[];
     bio?: string[];
+    probability_being?: string
     accessToken?: string; // If you want to include accessToken
   }
 }
