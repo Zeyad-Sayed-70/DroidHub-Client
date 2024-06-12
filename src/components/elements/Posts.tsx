@@ -1,7 +1,7 @@
 "use client";
 import { useGetPostsQuery } from "@/lib/features/posts/postsApiSlice";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import Post from "./Post";
+import Post from "./Post/Post";
 import Loader from "../ui/loader";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { PostType } from "@/types/post.type";
@@ -46,13 +46,12 @@ const Posts = () => {
       <Post key={post._id} post={post} user={users[post.creatorId]} />
     ));
   }, [posts, users]);
-
   return (
     <section className="flex items-center flex-col gap-6 pb-12 relative">
       {isLoading && <Loader />}
       {isSuccess && _posts}
 
-      <div ref={targetRef} className="absolute bottom-52 -z-10"></div>
+      <div ref={targetRef} className="absolute bottom-80 -z-10"></div>
     </section>
   );
 };

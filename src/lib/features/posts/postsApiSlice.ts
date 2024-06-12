@@ -16,7 +16,9 @@ interface GetPosts {
 }
 
 export const postsApiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/posts" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_BASE_SERVER_URL}/posts`,
+  }),
   reducerPath: "postApi",
   tagTypes: ["Posts"],
   endpoints: (builder) => ({
