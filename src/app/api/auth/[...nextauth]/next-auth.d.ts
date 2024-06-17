@@ -3,35 +3,37 @@ import NextAuth from "next-auth";
 declare module "next-auth" {
   interface Session {
     user: {
+      _id: string;
       name?: string | null;
       email?: string | null;
       image?: string | null;
       role?: string;
       communities?: string[];
       bio?: string[];
-      probability_being?: string
+      probability_being?: string;
     };
     accessToken?: string; // If you want to include accessToken
   }
 
   interface User {
-    id: string;
+    _id: string;
     name?: string | null;
     email?: string | null;
     image?: string | null;
     role?: string;
     communities?: string[];
     bio?: string[];
-    probability_being?: string
+    probability_being?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
+    _id: string;
     role?: string;
     communities?: string[];
     bio?: string[];
-    probability_being?: string
+    probability_being?: string;
     accessToken?: string; // If you want to include accessToken
   }
 }

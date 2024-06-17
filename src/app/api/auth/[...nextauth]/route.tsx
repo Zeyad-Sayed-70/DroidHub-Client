@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
 
           if (response.status === 201 && response.statusText === "Created") {
             // Add new properties to the token
+            token._id = response.data._id;
             token.role = response.data.role;
             token.communities = response.data.communities;
             token.bio = response.data.bio;
@@ -42,6 +43,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       // Add the new properties to the session object
+      session.user._id = token._id;
       session.user.role = token.role;
       session.user.communities = token.communities;
       session.user.bio = token.bio;

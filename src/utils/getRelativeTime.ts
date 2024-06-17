@@ -1,3 +1,26 @@
+export function testGetRelativeTime() {
+  const testCases = [
+    { input: new Date(Date.now() - 10 * 1000), expected: "now" }, // 10 seconds ago
+    { input: new Date(Date.now() - 3 * 60 * 1000), expected: "3m" }, // 3 minutes ago
+    { input: new Date(Date.now() - 2 * 60 * 60 * 1000), expected: "2h" }, // 2 hours ago
+    { input: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), expected: "5d" }, // 5 days ago
+    {
+      input: new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000),
+      expected: "2mo",
+    }, // 2 months ago
+    {
+      input: new Date(Date.now() - 3 * 365 * 24 * 60 * 60 * 1000),
+      expected: "3y",
+    }, // 3 years ago
+    { input: new Date(Date.now() + 10 * 1000), expected: "now" }, // 10 seconds in future
+  ];
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = getRelativeTime(input.toISOString());
+    console.log(`Test ${index + 1}: ${result} (expected: ${expected})`);
+  });
+}
+
 export function getRelativeTime(dateString: string): string {
   const now = new Date();
   const pastDate = new Date(dateString);
