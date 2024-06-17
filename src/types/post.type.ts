@@ -1,6 +1,6 @@
 export type Reactions = {
-  like: number;
-  comments: number;
+  like: string[];
+  comments: string[];
 };
 
 export type PostType = {
@@ -16,6 +16,7 @@ export type PostType = {
   caption?: string;
   createdAt: Date;
   reactions: Reactions;
+  comments: string[];
 };
 
 export type UpdatePost = {

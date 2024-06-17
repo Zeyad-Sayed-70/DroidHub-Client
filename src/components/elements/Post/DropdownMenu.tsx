@@ -6,6 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useUpdatePostMutation } from "@/lib/features/posts/postsApiSlice";
 
 const DropdownMenu = () => {
   return (

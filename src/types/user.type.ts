@@ -1,3 +1,7 @@
+type Reactions = {
+  like: string[];
+};
+
 export type UserType = {
   _id?: string;
   __v?: number;
@@ -10,4 +14,5 @@ export type UserType = {
   bio: string;
   probability_being: string;
   since: string;
+  reactions: Reactions;
 };
