@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { memo, useEffect } from "react";
+import React, { memo, useState } from "react";
 import { PostType } from "@/types/post.type";
 import { UserType } from "@/types/user.type";
 import Header from "./Header";
@@ -7,27 +7,32 @@ import Reactions from "./Reactions";
 import Comments from "./Comments/Comments";
 import Content from "./Comments/Content";
 
-const Post = ({ post, user }: { post: PostType; user: UserType }) => {
-  const [commentsShow, setCommentsShow] = React.useState(true);
+interface PostProps {
+  originPost: PostType;
+  user: UserType;
+}
+
+const Post: React.FC<PostProps> = ({ originPost, user }) => {
+  const [commentsShow, setCommentsShow] = useState(true);
+  const [post, setPost] = useState<PostType | null>(originPost);
+
+  if (!post) return null;
+
+  // Extract first valid image URL
+  const imageUrl = post.images?.[0] || "";
 
   return (
-    <main className="max-w-[600px] w-full bg-white p-4 rounded-md shadow-sm border-border border-2">
-      <Header post={post} user={user} />
+    <main className="max-w-[600px] w-full bg-white p-4 rounded-md shadow-sm border-2 border-border">
+      {/* Header Section */}
+      <Header post={post} user={user} setPost={setPost} />
+      {/* Content Section */}
       <Content post={post} />
-      {/* Image Serction */}
-      {post.images && post.images.length > 0 && (
+      {/* Image Section */}
+      {imageUrl && (
         <section className="mb-2">
           <Image
             alt="image"
-            src={
-              post.images?.[0].startsWith("http")
-                ? post.images?.[0]
-                : post.images?.[0].startsWith("https")
-                ? post.images?.[0]
-                : post.images?.[0].startsWith("/")
-                ? post.images?.[0]
-                : "" || ""
-            }
+            src={imageUrl}
             width={400}
             height={300}
             className="w-full h-[400px] object-contain bg-slate-200 rounded-md shadow-sm"
@@ -41,7 +46,7 @@ const Post = ({ post, user }: { post: PostType; user: UserType }) => {
         setCommentsShow={setCommentsShow}
       />
       {/* Comments Section */}
-      {commentsShow && <Comments post={post} />}
+      <Comments post={post} commentsShow={commentsShow} />
     </main>
   );
 };

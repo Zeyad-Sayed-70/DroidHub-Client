@@ -1,8 +1,9 @@
 import Navbar from "@/components/elements/Navbar";
 import Posts from "@/components/elements/Posts";
-import Sidebar from "@/components/elements/Sidebar";
+import LeftSidebar from "@/components/elements/LeftSidebar";
 import { Metadata } from "next";
 import ErrorBoundary from "../components/ErrorBoundary";
+import RightSidebar from "@/components/elements/RightSidebar";
 
 export const metadata: Metadata = {
   title: "DroidHub | Home",
@@ -18,7 +19,7 @@ export default async function Home() {
         </article>
         <div className="flex items-start gap-4">
           <article className="hidden lg:block w-[250px] xl:w-[300px] h-screen p-4 rounded-md shadow-md bg-secondary">
-            <Sidebar />
+            <LeftSidebar />
           </article>
           <article
             style={{ height: "calc(100vh - 74px)" }}
@@ -28,8 +29,8 @@ export default async function Home() {
               <Posts />
             </ErrorBoundary>
           </article>
-          <article className="hidden md:block w-[250px] xl:w-[300px] p-3 bg-secondary">
-            Right side
+          <article className="hidden md:block w-[300px] p-3 bg-secondary">
+            <RightSidebar />
           </article>
         </div>
       </main>

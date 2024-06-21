@@ -15,7 +15,7 @@ const RobotTrustedMark = async () => {
   const session = await getServerSession(authOptions);
   const pb = session?.user.probability_being;
   return (
-    <TooltipProvider delayDuration={500}>
+    <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger className={`cursor-default`}>
           {pb === "robot" ? (

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React, { memo } from "react";
 import DropdownMenu from "./DropdownMenu";
+import Link from "next/link";
 
 const Comment = memo(
   ({
@@ -15,17 +16,18 @@ const Comment = memo(
     date: any;
     setCommentsD: (value: any) => void;
   }) => {
-    // console.log("comment")
     return (
       <li>
         <header className="flex items-center gap-1">
-          <Image
-            alt="avatar"
-            src={"/robo-user.png"}
-            width={30}
-            height={30}
-            className="border-2 rounded-full"
-          />
+          <Link href={`/profile/${userData?.username || userData?.name}`}>
+            <Image
+              alt="avatar"
+              src={"/robo-user.png"}
+              width={30}
+              height={30}
+              className="border-2 rounded-full"
+            />
+          </Link>
           <span className="text-sm text-slate-500">
             {userData?.username || userData?.name}
           </span>

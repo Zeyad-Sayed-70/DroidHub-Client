@@ -32,7 +32,13 @@ import InputComment from "./InputComment";
 
 const SheetCommentsContent = lazy(() => import("./SheetContent"));
 
-const Comments = ({ post }: { post: PostType }) => {
+const Comments = ({
+  post,
+  commentsShow,
+}: {
+  post: PostType;
+  commentsShow: boolean;
+}) => {
   const { data: session } = useSession();
   const [commentsD, setCommentsD] = useState<any[]>([]);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
@@ -108,6 +114,8 @@ const Comments = ({ post }: { post: PostType }) => {
       commentsRef.current.scrollBy({ behavior: "smooth", top: 999999 });
     }
   }, [comments]);
+
+  if (!commentsShow) return <></>;
 
   return (
     <>

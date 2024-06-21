@@ -9,8 +9,10 @@ declare module "next-auth" {
       image?: string | null;
       role?: string;
       communities?: string[];
-      bio?: string[];
+      bio?: string;
       probability_being?: string;
+      followers?: string[];
+      following?: string[];
     };
     accessToken?: string; // If you want to include accessToken
   }
@@ -22,8 +24,10 @@ declare module "next-auth" {
     image?: string | null;
     role?: string;
     communities?: string[];
-    bio?: string[];
+    bio?: string;
     probability_being?: string;
+    followers?: string[];
+    following?: string[];
   }
 }
 
@@ -32,8 +36,10 @@ declare module "next-auth/jwt" {
     _id: string;
     role?: string;
     communities?: string[];
-    bio?: string[];
+    bio?: string;
     probability_being?: string;
     accessToken?: string; // If you want to include accessToken
+    followers?: string[];
+    following?: string[];
   }
 }

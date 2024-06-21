@@ -15,4 +15,6 @@ export type UserType = {
   probability_being: string;
   since: string;
   reactions: Reactions;
+  followers: string[];
+  following: string[];
 };

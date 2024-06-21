@@ -1,5 +1,5 @@
 "use client";
-import { useGetPostsQuery } from "@/lib/features/posts/postsApiSlice";
+
 import React, {
   useCallback,
   useEffect,
@@ -7,18 +7,21 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useGetPostsQuery } from "@/lib/features/posts/postsApiSlice";
 import Post from "./Post/Post";
-import Loader from "../ui/loader";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { PostType } from "@/types/post.type";
 import { UserType } from "@/types/user.type";
+import PostSkeleton from "./Post/PostSkeleton";
 
-const Posts = () => {
-  const limit = 8;
+const Posts: React.FC = () => {
+  const limit = 2;
   const [skip, setSkip] = useState(0);
-  const [isFirstTime, setIsFirstTime] = useState(true);
-  const { data, isLoading, isFetching, isError, isSuccess, refetch } =
-    useGetPostsQuery({ limit, skip });
+  const { data, isLoading, isError, isSuccess, refetch } = useGetPostsQuery({
+    limit,
+    skip,
+  });
+
   const [posts, setPosts] = useState<PostType[]>([]);
   const [users, setUsers] = useState<{ [key: string]: UserType }>({});
   const targetRef = useRef<HTMLDivElement>(null);
@@ -26,57 +29,58 @@ const Posts = () => {
     targetRef.current as HTMLDivElement
   );
 
+  // Fetch more posts when intersection observer detects entry
   useEffect(() => {
     if (isIntersecting) {
-      isFirstTime
-        ? setSkip((prevSkip) => prevSkip)
-        : setSkip((prevSkip) => prevSkip + limit);
-      setIsFirstTime(false);
+      setSkip((prevSkip) => prevSkip + limit);
     }
   }, [isIntersecting]);
 
+  // Refetch posts when skip changes
   useEffect(() => {
     if (skip > 0) {
       refetch();
     }
-  }, [skip]);
+  }, [skip, refetch]);
 
+  // Update posts and users when data is fetched
   useEffect(() => {
-    if (data && data.posts.length > 0) {
-      setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+    if (data) {
+      const { posts: newPosts, users: newUsers } = data;
 
-      const newUsers = data.users;
-      const hasNewUsers = Object.keys(newUsers).some(
-        (key) => !users.hasOwnProperty(key)
-      );
-
-      if (hasNewUsers) {
-        setUsers((prevUsers) => ({ ...prevUsers, ...newUsers }));
-      }
+      setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      setUsers((prevUsers) => ({ ...prevUsers, ...newUsers }));
     }
   }, [data]);
 
   const renderPost = useCallback(
-    (post: PostType) => (
-      <Post key={post._id} post={post} user={users[post.creatorId]} />
-    ),
+    (post: PostType) => {
+      const user = users[post.creatorId];
+      return <Post key={post._id} originPost={post} user={user} />;
+    },
     [users]
   );
 
-  const _posts = useMemo(() => {
-    if (!users) return null;
-    return posts.map((post) => renderPost(post));
-  }, [posts, users]);
-
-  return (
-    <section className="flex items-center flex-col gap-6 pb-12 relative">
-      {isLoading && <Loader />}
-      {isSuccess && _posts}
-      {posts.length === 0 && !isLoading && (
+  const postElements = useMemo(() => {
+    if (!posts.length) {
+      return (
         <div className="text-center text-xl font-semibold text-secondary-foreground">
           No posts found
         </div>
+      );
+    }
+    return posts.map(renderPost);
+  }, [posts, renderPost]);
+
+  return (
+    <section className="flex items-center flex-col gap-6 pb-12 relative">
+      {isLoading && (
+        <>
+          <PostSkeleton />
+          <PostSkeleton />
+        </>
       )}
+      {isSuccess && postElements}
       <div ref={targetRef} className="absolute bottom-80 -z-10"></div>
     </section>
   );
