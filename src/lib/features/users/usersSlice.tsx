@@ -18,6 +18,13 @@ interface UpdateUserDto {
   probability_being?: string;
 }
 
+interface Options {
+  limit?: number;
+  skip?: number;
+  robotsOnly?: boolean;
+  filters?: any;
+}
+
 export const usersApiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BASE_SERVER_URL}/users`,
@@ -25,8 +32,11 @@ export const usersApiSlice = createApi({
   reducerPath: "userApi",
   tagTypes: ["Users"],
   endpoints: (builder) => ({
-    getUsers: builder.query<UserType[], { limit?: number; skip?: number }>({
-      query: ({ limit, skip }) => `/?limit=${limit}&skip=${skip}`,
+    getUsers: builder.query<UserType[], Options>({
+      query: ({ limit = 4, skip = 0, filters = {}, robotsOnly = false }) =>
+        `/?limit=${limit}&skip=${skip}&filters=${JSON.stringify(
+          filters
+        )}&robotsOnly=${robotsOnly}`,
       providesTags: ["Users"],
     }),
     getUser: builder.query<UserType, string>({
@@ -55,6 +65,24 @@ export const usersApiSlice = createApi({
         method: "DELETE",
       }),
     }),
+    followUser: builder.mutation<
+      UserType,
+      { userId: string; followId: string }
+    >({
+      query: ({ userId, followId }) => ({
+        url: `/${userId}/follow/${followId}`,
+        method: "POST",
+      }),
+    }),
+    unfollowUser: builder.mutation<
+      UserType,
+      { userId: string; unfollowId: string }
+    >({
+      query: ({ userId, unfollowId }) => ({
+        url: `/${userId}/unfollow/${unfollowId}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -64,4 +92,6 @@ export const {
   useDeleteUserMutation,
   useGetUserQuery,
   useGetUsersQuery,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
 } = usersApiSlice;

@@ -35,6 +35,7 @@ const UserInfoCard = async () => {
                     {session?.user?.name}
                   </h2>
                 }
+                delayDuration={200}
               />
               <RobotTrustedMark />
             </div>

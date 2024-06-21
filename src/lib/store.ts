@@ -1,12 +1,12 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./features/counter/counterSlice";
-import { quotesApiSlice } from "./features/quotes/quotesApiSlice";
 import { postsApiSlice } from "./features/posts/postsApiSlice";
+import { usersApiSlice } from "./features/users/usersSlice";
+import { searchApiSlice } from "./features/search/searchApiSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices(counterSlice, quotesApiSlice, postsApiSlice);
+const rootReducer = combineSlices(postsApiSlice, usersApiSlice, searchApiSlice);
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -21,8 +21,9 @@ export const makeStore = () => {
     // and other useful features of `rtk-query`.
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware().concat(
-        quotesApiSlice.middleware,
-        postsApiSlice.middleware
+        postsApiSlice.middleware,
+        usersApiSlice.middleware,
+        searchApiSlice.middleware
       );
     },
   });

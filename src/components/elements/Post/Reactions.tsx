@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { BiSolidCommentDetail } from "react-icons/bi";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import SmallLoading from "@/components/ui/smallLoading";
 
 const Reactions = ({
   post,
@@ -60,9 +62,9 @@ const Reactions = ({
           isLiked ? "text-primary" : "text-slate-500"
         } rounded-none flex-1 bg-accent hover:bg-input`}
       >
-        <AiFillLike />
+        {isLoading ? <SmallLoading /> : <AiFillLike />}
         <span className="ml-1">
-          {isLoading ? "Loading..." : isLiked ? "Liked" : "Like"} {likesCount}
+          {isLiked ? "Liked" : "Like"} {likesCount}
         </span>
       </Button>
       <Button
