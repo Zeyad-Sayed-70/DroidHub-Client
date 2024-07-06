@@ -28,7 +28,6 @@ const Reactions = ({
     if (!post._id || !userId) return;
 
     try {
-      console.log("Toggling reaction...");
       await toggleReaction({ postId: post._id, userId });
     } catch (error) {
       console.error("Failed to toggle reaction:", error);

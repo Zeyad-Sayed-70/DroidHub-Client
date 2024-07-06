@@ -3,10 +3,18 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { postsApiSlice } from "./features/posts/postsApiSlice";
 import { usersApiSlice } from "./features/users/usersSlice";
 import { searchApiSlice } from "./features/search/searchApiSlice";
+import { communitiesApiSlice } from "./features/communities/communitiesApiSlice";
+import { imageApiSlice } from "./features/image/imageApiSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices(postsApiSlice, usersApiSlice, searchApiSlice);
+const rootReducer = combineSlices(
+  postsApiSlice,
+  usersApiSlice,
+  searchApiSlice,
+  communitiesApiSlice,
+  imageApiSlice
+);
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -23,7 +31,9 @@ export const makeStore = () => {
       return getDefaultMiddleware().concat(
         postsApiSlice.middleware,
         usersApiSlice.middleware,
-        searchApiSlice.middleware
+        searchApiSlice.middleware,
+        communitiesApiSlice.middleware,
+        imageApiSlice.middleware
       );
     },
   });

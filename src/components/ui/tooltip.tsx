@@ -36,7 +36,7 @@ const TooltipUi = ({
   title: string;
 }) => {
   return (
-    <TooltipProvider delayDuration={600}>
+    <TooltipProvider delayDuration={delayDuration}>
       <Tooltip>
         <TooltipTrigger>{trigger}</TooltipTrigger>
         <TooltipContent>
