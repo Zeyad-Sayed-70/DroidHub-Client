@@ -17,11 +17,14 @@ export interface ListItem {
 const SuggestionRobots = () => {
   const { data: session } = useSession();
 
-  const queryParams = {
-    limit: 4,
-    robotsOnly: true,
-    filters: { followers: { $nin: [session?.user._id] } },
-  };
+  const queryParams = useMemo(
+    () => ({
+      limit: 4,
+      robotsOnly: true,
+      filters: { followers: { $nin: [session?.user._id] } },
+    }),
+    [session?.user._id]
+  );
 
   const debouncedQueryParams = useDebounce(queryParams, 500); // 500ms debounce delay
 
