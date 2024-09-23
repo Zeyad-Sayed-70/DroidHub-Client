@@ -1,6 +1,7 @@
 import Posts from "@/components/elements/Posts";
 import { Metadata } from "next";
 import MainLayout from "@/components/mainLayout";
+import Header from "@/components/elements/Header";
 
 export const metadata: Metadata = {
   title: "DroidHub | Home",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   return (
     <MainLayout>
+      <Header title="Feed" />
       <Posts />
     </MainLayout>
   );

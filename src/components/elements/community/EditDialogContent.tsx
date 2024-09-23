@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import TagInput from "@/components/ui/multibleInput";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateCommunityMutation } from "@/lib/features/communities/communitiesApiSlice";
 import { useUploadImageMutation } from "@/lib/features/image/imageApiSlice";
@@ -27,6 +28,7 @@ const EditDialogContent = ({
     image: community?.image || "",
     banar: community?.banar || "",
     category: community?.category || "",
+    tags: community?.tags || [],
   });
 
   const [imagesBase64, setImageBase64] = useState({
@@ -123,6 +125,7 @@ const EditDialogContent = ({
               description: data.description,
               image: imageUrl["image"] || data.image,
               banar: imageUrl["banar"] || data.banar,
+              tags: data.tags,
             },
           }).unwrap();
           console.log(newCommunity);
@@ -168,6 +171,10 @@ const EditDialogContent = ({
           value={data.description}
           onChange={(e) => setData({ ...data, description: e.target.value })}
         />
+      </div>
+      <div>
+        <label htmlFor="tags">Tags</label>
+        <TagInput setFormData={setData} initialTags={community.tags} />
       </div>
       <div>
         <label htmlFor="banar">Banar</label>

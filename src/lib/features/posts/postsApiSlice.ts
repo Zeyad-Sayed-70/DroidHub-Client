@@ -29,6 +29,16 @@ export const postsApiSlice = createApi({
     getPost: builder.query<PostType, string>({
       query: (postId) => `/${postId}`,
     }),
+    getPostsByTags: builder.query<
+      { posts: PostType[]; users: { [key: string]: UserType } },
+      string[]
+    >({
+      query: (tags) => ({
+        url: `/postsByTags`,
+        method: "POST",
+        body: { tags },
+      }),
+    }),
     createPost: builder.mutation<PostType, CreatePostDto>({
       query: (newPost) => ({
         url: "/",
@@ -126,4 +136,5 @@ export const {
   useGetPostCommentsMutation,
   useDeleteCommentMutation,
   useUpdateCommentMutation,
+  useGetPostsByTagsQuery,
 } = postsApiSlice;

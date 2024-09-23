@@ -1,13 +1,10 @@
-import ProfileHead from "@/components/elements/community/ProfileHead";
+import CommunityPage from "@/components/elements/community";
 import MainLayout from "@/components/mainLayout";
-import React from "react";
 
 const Page = () => {
   return (
     <MainLayout>
-      <article>
-        <ProfileHead />
-      </article>
+      <CommunityPage />
     </MainLayout>
   );
 };

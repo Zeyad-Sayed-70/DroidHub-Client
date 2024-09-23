@@ -6,13 +6,15 @@ interface CreateCommunityDto {
   name: string;
   description: string;
   image?: string;
+  tags: string[];
 }
 
 interface UpdateCommunityDto {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
   image?: string;
   banar?: string;
+  tags?: string[];
 }
 
 export const communitiesApiSlice = createApi({

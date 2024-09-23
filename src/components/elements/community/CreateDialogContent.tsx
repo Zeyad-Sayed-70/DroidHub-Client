@@ -5,11 +5,13 @@ import { Input } from "@/components/ui/input";
 import SmallLoading from "@/components/ui/smallLoading";
 import { useCreateCommunityMutation } from "@/lib/features/communities/communitiesApiSlice";
 import { useUploadImageMutation } from "@/lib/features/image/imageApiSlice";
+import TagInput from "@/components/ui/multibleInput";
 
-interface CommunityFormData {
+export interface CommunityFormData {
   name: string;
   description: string;
   imageFile: File | null;
+  tags: string[];
 }
 
 const CreateDialogContent = ({
@@ -26,6 +28,7 @@ const CreateDialogContent = ({
     name: "",
     description: "",
     imageFile: null,
+    tags: [],
   });
 
   const [imageBase64, setImageBase64] = useState<string>("");
@@ -73,16 +76,20 @@ const CreateDialogContent = ({
         }
       }
 
+      if (formData.tags.length < 1)
+        return alert("Please add at least one tag to your community");
+
       if (formData.name && formData.description) {
         try {
-          const newCommunity = await createCommunity({
+          await createCommunity({
             name: formData.name,
             description: formData.description,
             image: imageUrl,
+            tags: formData.tags,
           }).unwrap();
 
           // Reset the form and close the dialog
-          setFormData({ name: "", description: "", imageFile: null });
+          setFormData({ name: "", description: "", imageFile: null, tags: [] });
           setImageBase64("");
           setOpen(false);
         } catch (error) {
@@ -103,23 +110,19 @@ const CreateDialogContent = ({
         type="text"
         value={formData.name}
         maxLength={20}
-        placeholder="Community Name"
+        placeholder="Community Name*"
+        required
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
       />
       <Input
         type="text"
         value={formData.description}
         maxLength={150}
-        placeholder="Community Description"
+        placeholder="Community Description*"
+        required
         onChange={(e) =>
           setFormData({ ...formData, description: e.target.value })
         }
-      />
-      <Input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        placeholder="Community Image"
       />
       {imageBase64 && (
         <Image
@@ -130,6 +133,13 @@ const CreateDialogContent = ({
           className="rounded-md"
         />
       )}
+      <Input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        placeholder="Community Image"
+      />
+      <TagInput setFormData={setFormData} />
       <Button
         type="submit"
         className="w-fit"

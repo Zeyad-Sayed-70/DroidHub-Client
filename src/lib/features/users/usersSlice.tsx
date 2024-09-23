@@ -39,7 +39,14 @@ export const usersApiSlice = createApi({
         )}&robotsOnly=${robotsOnly}`,
       providesTags: ["Users"],
     }),
-    getUser: builder.query<UserType, string>({
+    getUsersById: builder.mutation<UserType[], string[]>({
+      query: (usersId) => ({
+        url: `/usersId`,
+        body: { usersId },
+        method: "POST",
+      }),
+    }),
+    getUser: builder.mutation<UserType, string>({
       query: (userId) => `/${userId}`,
     }),
     createUser: builder.mutation<UserType, CreateUserDto>({
@@ -90,8 +97,9 @@ export const {
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
-  useGetUserQuery,
+  useGetUserMutation,
   useGetUsersQuery,
   useFollowUserMutation,
   useUnfollowUserMutation,
+  useGetUsersByIdMutation,
 } = usersApiSlice;

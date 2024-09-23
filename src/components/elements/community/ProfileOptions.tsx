@@ -53,7 +53,7 @@ const ProfileOptions = ({
       </DropdownMenu>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[90%] overflow-auto">
           <DialogHeader>
             <DialogTitle>Edit the community</DialogTitle>
           </DialogHeader>

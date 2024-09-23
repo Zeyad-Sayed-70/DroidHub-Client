@@ -9,4 +9,5 @@ export type CommunityType = {
   category?: string;
   admins?: string[];
   moderators?: string[];
+  tags?: string[];
 };
