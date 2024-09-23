@@ -1,44 +1,16 @@
-import React, { memo, useEffect, useCallback, useState } from "react";
-import { useSession } from "next-auth/react";
+import React, { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useToggleMemberMutation } from "@/lib/features/communities/communitiesApiSlice";
 import { Button } from "@/components/ui/button";
 import SmallLoading from "@/components/ui/smallLoading";
 import { CommunityType } from "@/types/community";
+import useToggleCommunityMemberStatus from "@/hooks/useToggleCommunityMemberStatus";
 
 const Card = ({ community }: { community: CommunityType }) => {
-  const { data: session } = useSession();
-  const [toggleMember, { isLoading, data, isSuccess }] =
-    useToggleMemberMutation();
-  const [isJoined, setIsJoined] = useState(false);
-  const userId = session?.user?._id;
-
-  // Check if the user has joined the community
-  useEffect(() => {
-    if (community.members && userId) {
-      setIsJoined(community.members.includes(userId));
-    }
-  }, [community.members, userId]);
-
-  // Update user status when data changes
-  useEffect(() => {
-    if (data && !isLoading && isSuccess) {
-      if (data.members && userId) {
-        setIsJoined(data.members.includes(userId));
-      }
-    }
-  }, [data, isLoading, isSuccess, userId]);
-
-  const handleToggleMember = useCallback(async () => {
-    if (!community._id || !userId) return;
-
-    await toggleMember({
-      communityId: community._id,
-      action: isJoined ? "leave" : "join",
-      memberId: userId,
-    }).unwrap();
-  }, [community._id, isJoined, userId, toggleMember]);
+  const { handleToggleMember, isJoined, isLoading } =
+    useToggleCommunityMemberStatus({
+      community,
+    });
 
   return (
     <div className="flex flex-col justify-between p-4 rounded-md bg-background min-w-[220px] max-w-[250px] w-[30%]">

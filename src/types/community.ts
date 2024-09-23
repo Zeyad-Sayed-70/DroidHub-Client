@@ -4,4 +4,9 @@ export type CommunityType = {
   description?: string;
   members?: string[];
   image?: string;
+  banar?: string;
+  createdAt?: Date;
+  category?: string;
+  admins?: string[];
+  moderators?: string[];
 };

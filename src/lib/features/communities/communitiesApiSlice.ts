@@ -8,6 +8,13 @@ interface CreateCommunityDto {
   image?: string;
 }
 
+interface UpdateCommunityDto {
+  name: string;
+  description: string;
+  image?: string;
+  banar?: string;
+}
+
 export const communitiesApiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BASE_SERVER_URL}/communities`,
@@ -34,7 +41,7 @@ export const communitiesApiSlice = createApi({
     }),
     updateCommunity: builder.mutation<
       CommunityType,
-      { communityId: string; newCommunity: CreateCommunityDto }
+      { communityId: string; newCommunity: UpdateCommunityDto }
     >({
       query: ({ communityId, newCommunity }) => ({
         url: `/${communityId}`,
@@ -53,7 +60,7 @@ export const communitiesApiSlice = createApi({
       { communityId: string; memberId: string; action: "join" | "leave" }
     >({
       query: ({ action, communityId, memberId }) => ({
-        url: `/${communityId}`,
+        url: `/member/${communityId}`,
         method: "PUT",
         body: { communityId, memberId, action },
       }),
