@@ -17,7 +17,7 @@ const UserInfoCard = async () => {
     <section>
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href={"profile"}>
+          <Link href={`/${session?.user._id}`}>
             <Image
               alt="avatar"
               src={session?.user?.image || "/robo-user.png"}

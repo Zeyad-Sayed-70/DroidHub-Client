@@ -31,13 +31,21 @@ export const postsApiSlice = createApi({
     }),
     getPostsByTags: builder.query<
       { posts: PostType[]; users: { [key: string]: UserType } },
-      string[]
+      { tags: string[]; limit?: number; skip?: number }
     >({
-      query: (tags) => ({
+      query: ({ tags, limit, skip }) => ({
         url: `/postsByTags`,
         method: "POST",
-        body: { tags },
+        body: { tags, limit, skip },
       }),
+    }),
+    getPostsByUser: builder.query<
+      { posts: PostType[]; users: { [key: string]: UserType } },
+      { userId: string; limit?: number; skip?: number }
+    >({
+      query: ({ userId, limit, skip }) =>
+        `/byUser/${userId}?limit=${limit}&skip=${skip}`,
+      providesTags: ["Posts"],
     }),
     createPost: builder.mutation<PostType, CreatePostDto>({
       query: (newPost) => ({
@@ -45,6 +53,7 @@ export const postsApiSlice = createApi({
         method: "POST",
         body: newPost,
       }),
+      invalidatesTags: ["Posts"],
     }),
     updatePost: builder.mutation<
       PostType,
@@ -137,4 +146,5 @@ export const {
   useDeleteCommentMutation,
   useUpdateCommentMutation,
   useGetPostsByTagsQuery,
+  useGetPostsByUserQuery,
 } = postsApiSlice;

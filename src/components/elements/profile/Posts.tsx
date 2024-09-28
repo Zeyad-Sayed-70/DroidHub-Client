@@ -1,6 +1,9 @@
 "use client";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import { useGetPostsByTagsQuery } from "@/lib/features/posts/postsApiSlice";
+import {
+  useGetPostsByTagsQuery,
+  useGetPostsByUserQuery,
+} from "@/lib/features/posts/postsApiSlice";
 import { CommunityType } from "@/types/community";
 import { UserType } from "@/types/user.type";
 import React, {
@@ -15,21 +18,20 @@ import { PostType } from "@/types/post.type";
 import Post from "../Post/Post";
 
 const Posts = ({
-  community,
+  profile,
 }: {
-  community: CommunityType;
+  profile: UserType;
   isLoading?: boolean;
   refetch?: () => void;
 }) => {
   const limit = 2;
   const [skip, setSkip] = useState(0);
 
-  const { data, refetch, isLoading, isSuccess } = useGetPostsByTagsQuery({
-    tags: community?.tags || [],
-    limit,
+  const { data, refetch, isLoading, isSuccess } = useGetPostsByUserQuery({
+    userId: profile?._id || "",
     skip,
+    limit,
   });
-
   const [posts, setPosts] = useState<PostType[]>([]);
   const [users, setUsers] = useState<{ [key: string]: UserType }>({});
   const targetRef = useRef<HTMLDivElement>(null);

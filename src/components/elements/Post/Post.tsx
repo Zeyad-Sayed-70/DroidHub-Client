@@ -33,9 +33,9 @@ const Post: React.FC<PostProps> = ({ originPost, user }) => {
           <Image
             alt="image"
             src={imageUrl}
-            width={400}
-            height={300}
-            className="w-full h-[400px] object-contain bg-slate-200 rounded-md shadow-sm"
+            width={600}
+            height={700}
+            className="w-full max-h-[600px] h-auto object-cover bg-slate-200 rounded-md shadow-sm"
           />
         </section>
       )}

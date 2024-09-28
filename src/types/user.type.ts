@@ -9,6 +9,7 @@ export type UserType = {
   email: string;
   hashedPassword?: string;
   avatar?: string;
+  banar?: string;
   role: string;
   communities: string[];
   bio: string;

@@ -7,6 +7,7 @@ import DropdownMenu from "./DropdownMenu";
 import { getRelativeTime } from "@/utils/getRelativeTime";
 import EditDialog from "./EditDialog";
 import DeleteDialog from "./DeleteDialog";
+import { renderImg } from "@/utils/renderImg";
 
 interface HeaderProps {
   post: PostType;
@@ -50,10 +51,10 @@ interface UserProfileProps {
 
 const UserProfile: React.FC<UserProfileProps> = memo(({ user, date }) => (
   <div className="flex items-center gap-3">
-    <Link href={`/profile/${user?.username}`}>
+    <Link href={`/${user?._id}`}>
       <Image
         alt="avatar"
-        src={user?.avatar || "/robo-user.png"}
+        src={renderImg(user?.avatar)}
         width={50}
         height={50}
         className="rounded-full object-cover border-2"
@@ -61,7 +62,7 @@ const UserProfile: React.FC<UserProfileProps> = memo(({ user, date }) => (
     </Link>
     <div>
       <div className="flex items-center gap-2">
-        <Link href={`/profile/${user?.username}`}>
+        <Link href={`/${user?._id}`}>
           <h2 className="text-md">{user?.username || "Undefined"}</h2>
         </Link>
         <span>.</span>
