@@ -9,6 +9,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import { useDeleteCommentMutation } from "@/lib/features/posts/postsApiSlice";
 import EditCommentDialog from "./EditCommentDialog";
+import { toast } from "sonner";
 
 const DropdownMenu = ({
   comment,
@@ -28,6 +29,8 @@ const DropdownMenu = ({
     setCommentsD((prevComments: any[]) =>
       prevComments.filter((c) => c._id !== comment?._id)
     );
+
+    toast.success(`Comment ${comment?._id} deleted`, { duration: 3000 });
   };
 
   return (

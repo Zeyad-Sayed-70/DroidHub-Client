@@ -29,6 +29,7 @@ import { useSession } from "next-auth/react";
 import { getRelativeTime, testGetRelativeTime } from "@/utils/getRelativeTime";
 import Comment from "./Comment";
 import InputComment from "./InputComment";
+import { toast } from "sonner";
 
 const SheetCommentsContent = lazy(() => import("./SheetContent"));
 
@@ -72,18 +73,26 @@ const Comments = ({
 
   // Handle sending a new comment
   const handleSendComment = useCallback(
-    (
+    async (
       e: React.FormEvent<HTMLFormElement>,
       comment: string,
       setComment: (value: string) => void
     ) => {
       e.preventDefault();
       if (!post._id || !session?.user._id || !comment) return;
-      createComment({
+      const res: any = await createComment({
         postId: post._id.toString(),
         userId: session.user._id,
         comment: comment,
       });
+
+      if (res?.error) {
+        toast.error(res.error.message);
+        return;
+      }
+
+      toast.success(`Comment created successfully!`, { duration: 3000 });
+
       setComment("");
     },
     [post, session, createComment]
