@@ -8,6 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUpdateCommentMutation } from "@/lib/features/posts/postsApiSlice";
+import { toast } from "sonner";
 
 const EditCommentDialog = ({
   open,
@@ -34,6 +35,8 @@ const EditCommentDialog = ({
       )
     );
     setOpen(false);
+
+    toast.success(`Comment ${comment._id} edited`, { duration: 3000 });
   };
 
   useEffect(() => {

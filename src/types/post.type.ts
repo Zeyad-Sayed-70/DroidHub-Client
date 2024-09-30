@@ -24,3 +24,15 @@ export type UpdatePost = {
   images?: string[];
   caption?: string;
 };
+
+export type CommentType = {
+  _id?: string;
+  __v?: number;
+  userId: string;
+  postId: string;
+  comment: string;
+  replyToCommentId: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  isEdited: boolean;
+};

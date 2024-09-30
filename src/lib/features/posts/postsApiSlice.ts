@@ -1,4 +1,4 @@
-import { PostType, UpdatePost } from "@/types/post.type";
+import { CommentType, PostType, UpdatePost } from "@/types/post.type";
 import { UserType } from "@/types/user.type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -82,7 +82,7 @@ export const postsApiSlice = createApi({
       }),
     }),
     createComment: builder.mutation<
-      { comment: any },
+      { comment: CommentType },
       {
         postId: string;
         userId: string;
@@ -97,7 +97,7 @@ export const postsApiSlice = createApi({
       }),
     }),
     getPostComments: builder.mutation<
-      { comments: any; usersHash: { [key: string]: any } },
+      { comments: CommentType[]; usersHash: { [key: string]: UserType } },
       {
         postId: string;
       }
@@ -108,7 +108,7 @@ export const postsApiSlice = createApi({
       }),
     }),
     updateComment: builder.mutation<
-      { comment: any },
+      { comment: CommentType },
       {
         comment: string;
         commentId: string;
@@ -121,7 +121,7 @@ export const postsApiSlice = createApi({
       }),
     }),
     deleteComment: builder.mutation<
-      { comment: any },
+      { comment: CommentType },
       {
         commentId: string;
       }

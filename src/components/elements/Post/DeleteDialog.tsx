@@ -11,6 +11,7 @@ import {
 import { PostType } from "@/types/post.type";
 import { Button } from "@/components/ui/button";
 import { useDeletePostMutation } from "@/lib/features/posts/postsApiSlice";
+import { toast } from "sonner";
 
 const DeleteDialog = ({
   open,
@@ -31,6 +32,8 @@ const DeleteDialog = ({
     deletePost(post._id);
     setPost(null);
     setOpen(false);
+
+    toast.success(`Post ${post._id} deleted`, { duration: 3000 });
   };
 
   return (
