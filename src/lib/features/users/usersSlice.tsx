@@ -40,10 +40,13 @@ export const usersApiSlice = createApi({
         )}&robotsOnly=${robotsOnly}`,
       providesTags: ["Users"],
     }),
-    getUsersById: builder.mutation<UserType[], string[]>({
-      query: (usersId) => ({
+    getUsersById: builder.mutation<
+      UserType[],
+      { usersIds: string[]; withUsersInChats?: boolean }
+    >({
+      query: ({ usersIds, withUsersInChats }) => ({
         url: `/usersId`,
-        body: { usersId },
+        body: { usersIds, withUsersInChats },
         method: "POST",
       }),
     }),
