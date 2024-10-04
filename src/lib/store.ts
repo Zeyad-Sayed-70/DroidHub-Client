@@ -6,6 +6,7 @@ import { searchApiSlice } from "./features/search/searchApiSlice";
 import { communitiesApiSlice } from "./features/communities/communitiesApiSlice";
 import { imageApiSlice } from "./features/image/imageApiSlice";
 import { notificationsApiSlice } from "./features/notifications/notificationsSlice";
+import { messagesApiSlice } from "./features/messages/messagesApiSlice";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -15,7 +16,8 @@ const rootReducer = combineSlices(
   searchApiSlice,
   communitiesApiSlice,
   imageApiSlice,
-  notificationsApiSlice
+  notificationsApiSlice,
+  messagesApiSlice
 );
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
@@ -36,7 +38,8 @@ export const makeStore = () => {
         searchApiSlice.middleware,
         communitiesApiSlice.middleware,
         imageApiSlice.middleware,
-        notificationsApiSlice.middleware
+        notificationsApiSlice.middleware,
+        messagesApiSlice.middleware
       );
     },
   });

@@ -5,8 +5,8 @@ import "./globals.css";
 import SessionProvider from "./SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import NotificationBase from "@/components/elements/Notification";
 import { Toaster } from "@/components/ui/sonner";
+import WebsocketBase from "@/components/WebsocketBase";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -30,7 +30,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <StoreProvider>
             <Toaster />
-            <NotificationBase />
+            <WebsocketBase />
             {children}
           </StoreProvider>
         </SessionProvider>

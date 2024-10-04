@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, account, user, profile }) {
+    async jwt({ token, account, user }) {
       if (account && user) {
         // Fetch additional user data from your server
         try {
@@ -31,7 +31,10 @@ export const authOptions: NextAuthOptions = {
           if (response.status === 201 && response.statusText === "Created") {
             // Add new properties to the token
             token._id = response.data._id as string;
+            token.username = response.data.username;
             token.role = response.data.role;
+            token.avatar = response.data.avatar;
+            token.banar = response.data.banar;
             token.communities = response.data.communities;
             token.bio = response.data.bio;
             token.probability_being = response.data.probability_being;
@@ -45,24 +48,35 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // Add the new properties to the session object
-      session.user._id = token._id;
-      session.user.role = token.role;
-      session.user.communities = token.communities;
-      session.user.bio = token.bio;
-      session.user.probability_being = token.probability_being;
-      session.user.followers = token.followers;
-      session.user.following = token.following;
-      // session.accessToken = token.accessToken;
+      try {
+        // Update user information each time session is called
+        const response = await axios.get<UserType>(
+          `${process.env.NEXT_PUBLIC_BASE_SERVER_URL}/users/${token._id}`
+        );
+
+        if (response.status === 200) {
+          // Update session with new data from the server
+          session.user._id = response.data._id as string;
+          session.user.username = response.data.username;
+          session.user.role = response.data.role;
+          session.user.avatar = response.data.avatar;
+          session.user.banar = response.data.banar;
+          session.user.communities = response.data.communities;
+          session.user.bio = response.data.bio;
+          session.user.probability_being = response.data.probability_being;
+          session.user.followers = response.data.followers;
+          session.user.following = response.data.following;
+        }
+      } catch (error) {
+        console.error("Error updating session data:", error);
+      }
 
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Always redirect to the home page after sign-in
       return baseUrl;
     },
-    async signIn({ user, account, profile, email, credentials }) {
-      // You can keep this as is, ensuring user creation or validation
+    async signIn({ user }) {
       return true;
     },
   },
